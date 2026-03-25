@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.example.thu_chi.data.AppDatabase
 import com.example.thu_chi.databinding.FragmentBaoCaoBinding
 import com.example.thu_chi.repository.TransactionRepository
+import com.github.mikephil.charting.components.XAxis
 import com.example.thu_chi.ui.adapter.CategorySummary
 import com.example.thu_chi.ui.adapter.CategorySummaryAdapter
 import com.github.mikephil.charting.data.PieData

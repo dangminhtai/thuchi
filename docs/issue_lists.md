@@ -24,3 +24,8 @@
 - **Nguyên nhân**: Thiếu `import com.example.thu_chi.R` sau khi cấu trúc lại code và thêm tính năng biểu đồ mới.
 - **Action**: Bổ sung `import com.example.thu_chi.R`.
 - **Giải pháp**: Đảm bảo các lớp tài nguyên luôn được import đầy đủ khi sử dụng ID thủ công thay vì thông qua ViewBinding.
+
+## ISS006: Lỗi biên dịch `Unresolved reference: XAxis` trong `FragmentBaoCao.kt`
+- **Nguyên nhân**: Thiếu `import com.github.mikephil.charting.components.XAxis` khi thiết lập cấu trúc cho biểu đồ cột mới.
+- **Action**: Bổ sung `import com.github.mikephil.charting.components.XAxis`.
+- **Giải pháp**: Kiểm tra các lớp thành phần của thư viện bên thứ 3 (như MPAndroidChart) khi sử dụng các hằng số hoặc ENUM của chúng.
