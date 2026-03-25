@@ -59,11 +59,44 @@
 
     </LinearLayout>
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_chart"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleChart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        app:singleSelection="true"
+        app:checkedButton="@+id/btnPie">
+        <Button
+            android:id="@+id/btnPie"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tròn" />
+        <Button
+            android:id="@+id/btnBar"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cột" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="24dp" />
+        android:layout_height="250dp"
+        android:layout_marginTop="16dp">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pie_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_category_summary"

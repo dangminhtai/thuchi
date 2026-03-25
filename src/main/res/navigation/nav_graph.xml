@@ -22,4 +22,10 @@
         android:name="com.example.thu_chi.ui.FragmentLich"
         android:label="Lịch"
         tools:layout="@layout/fragment_lich" />
+
+    <fragment
+        android:id="@+id/fragmentManageCategories"
+        android:name="com.example.thu_chi.ui.FragmentManageCategories"
+        android:label="Quản lý danh mục"
+        tools:layout="@layout/fragment_manage_categories" />
 </navigation>

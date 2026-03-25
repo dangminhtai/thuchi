@@ -51,6 +51,10 @@ class FragmentNhapThuChi : Fragment() {
             setupCategoryList(categories)
         }
 
+        binding.btnManageCategories.setOnClickListener {
+            androidx.navigation.fragment.findNavController().navigate(R.id.fragmentManageCategories)
+        }
+
         binding.btnSave.setOnClickListener { saveTransaction() }
     }
 

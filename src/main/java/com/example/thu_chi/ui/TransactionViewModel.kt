@@ -50,6 +50,14 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
         repository.delete(transaction)
     }
 
+    fun insertCategory(category: com.example.thu_chi.data.Category) = viewModelScope.launch {
+        repository.insertCategory(category)
+    }
+
+    fun deleteCategory(category: com.example.thu_chi.data.Category) = viewModelScope.launch {
+        repository.deleteCategory(category)
+    }
+
     fun setBudget(budget: Budget) = viewModelScope.launch {
         repository.setBudget(budget)
     }

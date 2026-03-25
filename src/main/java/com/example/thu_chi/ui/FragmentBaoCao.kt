@@ -43,6 +43,21 @@ class FragmentBaoCao : Fragment() {
         setupChart()
         observeViewModel()
 
+        binding.toggleChart.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.btnPie -> {
+                        binding.pieChart.visibility = android.view.View.VISIBLE
+                        binding.barChart.visibility = android.view.View.GONE
+                    }
+                    R.id.btnBar -> {
+                        binding.pieChart.visibility = android.view.View.GONE
+                        binding.barChart.visibility = android.view.View.VISIBLE
+                    }
+                }
+            }
+        }
+
         binding.btnExport.setOnClickListener {
             val transactions = viewModel.transactionsInMonth.value ?: emptyList()
             if (transactions.isNotEmpty()) {
@@ -61,6 +76,21 @@ class FragmentBaoCao : Fragment() {
             setCenterTextColor(Color.GRAY)
             animateY(1400, com.github.mikephil.charting.animation.Easing.EaseInOutQuad)
             legend.isEnabled = false
+            description.isEnabled = false
+            holeRadius = 60f
+            setHoleColor(android.graphics.Color.TRANSPARENT)
+            legend.isEnabled = false
+        }
+
+        binding.barChart.apply {
+            description.isEnabled = false
+            setDrawGridBackground(false)
+            setDrawBarShadow(false)
+            legend.isEnabled = false
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.setDrawGridLines(false)
+            axisLeft.setDrawGridLines(false)
+            axisRight.isEnabled = false
         }
     }
 
@@ -92,7 +122,8 @@ class FragmentBaoCao : Fragment() {
         val categorySum = expenseTransactions.groupBy { it.category }
             .mapValues { entry -> entry.value.sumOf { it.amount } }
 
-        updateChart(categorySum)
+        updatePieChart(categorySum)
+        updateBarChart(categorySum)
         updateSummaryList(categorySum, totalExpense, budgets)
     }
 
@@ -107,24 +138,28 @@ class FragmentBaoCao : Fragment() {
         binding.rvCategorySummary.adapter = CategorySummaryAdapter(summaries)
     }
 
-    private fun updateChart(categorySum: Map<String, Long>) {
-        val entries = categorySum.map { PieEntry(it.value.toFloat(), it.key) }
-        val dataSet = PieDataSet(entries, "Chi tiêu theo danh mục")
-        
-        val colors = mutableListOf<Int>()
-        for (c in com.github.mikephil.charting.utils.ColorTemplate.MATERIAL_COLORS) colors.add(c)
-        for (c in com.github.mikephil.charting.utils.ColorTemplate.VORDIPLOM_COLORS) colors.add(c)
-        dataSet.colors = colors
-
-        dataSet.sliceSpace = 3f
-        dataSet.selectionShift = 5f
-        
-        val data = PieData(dataSet)
-        data.setDrawValues(false)
-        
-        binding.pieChart.data = data
-        binding.pieChart.highlightValues(null)
+    private fun updatePieChart(categorySum: Map<String, Long>) {
+        val entries = categorySum.map { (name, amount) -> PieEntry(amount.toFloat(), name) }
+        val dataSet = PieDataSet(entries, "").apply {
+            colors = com.github.mikephil.charting.utils.ColorTemplate.VORDHOFF_COLORS.toList()
+            setDrawValues(false)
+        }
+        binding.pieChart.data = PieData(dataSet)
         binding.pieChart.invalidate()
+    }
+
+    private fun updateBarChart(categorySum: Map<String, Long>) {
+        val entries = categorySum.entries.mapIndexed { index, entry ->
+            com.github.mikephil.charting.data.BarEntry(index.toFloat(), entry.value.toFloat())
+        }
+        val dataSet = com.github.mikephil.charting.data.BarDataSet(entries, "Chi tiêu").apply {
+            color = android.graphics.Color.parseColor("#FF8C00")
+            setDrawValues(true)
+        }
+        
+        binding.barChart.xAxis.valueFormatter = com.github.mikephil.charting.formatter.IndexAxisValueFormatter(categorySum.keys)
+        binding.barChart.data = com.github.mikephil.charting.data.BarData(dataSet)
+        binding.barChart.invalidate()
     }
 
     override fun onDestroyView() {
