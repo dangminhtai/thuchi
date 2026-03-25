@@ -1,5 +1,6 @@
 package com.example.thu_chi.ui
 
+import com.example.thu_chi.R
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -19,3 +19,8 @@
 - **Nguyên nhân**: MainActivity luôn kiểm tra có PIN hay không để chuyển hướng, mà không kiểm tra người dùng đã vừa mới nhập PIN xong hay chưa.
 - **Action**: Thêm biến static `isAuthenticated` vào `SecurityUtils` để đánh dấu trạng thái đã xác thực trong phiên làm việc.
 - **Giải pháp**: Với các màn hình chặn (Gatekeeper), cần có trạng thái lưu lại việc đã vượt qua cửa kiểm soát để tránh lặp lại logic chuyển hướng.
+
+## ISS005: Lỗi biên dịch `Unresolved reference: R` trong `FragmentBaoCao.kt`
+- **Nguyên nhân**: Thiếu `import com.example.thu_chi.R` sau khi cấu trúc lại code và thêm tính năng biểu đồ mới.
+- **Action**: Bổ sung `import com.example.thu_chi.R`.
+- **Giải pháp**: Đảm bảo các lớp tài nguyên luôn được import đầy đủ khi sử dụng ID thủ công thay vì thông qua ViewBinding.
