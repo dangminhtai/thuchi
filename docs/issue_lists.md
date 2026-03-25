@@ -14,3 +14,8 @@
 - **Nguyên nhân**: Sử dụng sai tên biến màu sắc chưa có trong `colors.xml`.
 - **Action**: Đổi `@color/orange_700` sang `@color/orange_main`.
 - **Giải pháp**: Luôn kiểm tra file `colors.xml` trước khi gọi tên biến màu sắc mới.
+
+## ISS004: Lỗi vòng lặp vô tận (Endless Loop) giữa MainActivity và LockActivity
+- **Nguyên nhân**: MainActivity luôn kiểm tra có PIN hay không để chuyển hướng, mà không kiểm tra người dùng đã vừa mới nhập PIN xong hay chưa.
+- **Action**: Thêm biến static `isAuthenticated` vào `SecurityUtils` để đánh dấu trạng thái đã xác thực trong phiên làm việc.
+- **Giải pháp**: Với các màn hình chặn (Gatekeeper), cần có trạng thái lưu lại việc đã vượt qua cửa kiểm soát để tránh lặp lại logic chuyển hướng.

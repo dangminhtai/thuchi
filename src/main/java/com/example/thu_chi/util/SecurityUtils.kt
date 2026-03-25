@@ -6,6 +6,8 @@ object SecurityUtils {
     private const val PREF_NAME = "security_prefs"
     private const val KEY_PIN = "app_pin"
 
+    var isAuthenticated = false
+
     fun setPin(context: Context, pin: String) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_PIN, pin).apply()

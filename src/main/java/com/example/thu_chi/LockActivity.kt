@@ -69,6 +69,7 @@ class LockActivity : AppCompatActivity() {
 
     private fun verifyPin() {
         if (inputPin == SecurityUtils.getPin(this)) {
+            SecurityUtils.isAuthenticated = true
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         } else {
@@ -90,6 +91,7 @@ class LockActivity : AppCompatActivity() {
         val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
+                SecurityUtils.isAuthenticated = true
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }

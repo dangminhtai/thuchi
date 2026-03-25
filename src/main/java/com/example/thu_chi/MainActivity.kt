@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (com.example.thu_chi.util.SecurityUtils.isLocked(this)) {
+        if (com.example.thu_chi.util.SecurityUtils.isLocked(this) && !com.example.thu_chi.util.SecurityUtils.isAuthenticated) {
             startActivity(Intent(this, LockActivity::class.java))
             finish()
             return
