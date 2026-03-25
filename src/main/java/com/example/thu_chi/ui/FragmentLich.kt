@@ -40,18 +40,29 @@ class FragmentLich : Fragment() {
         binding.rvDailyTransactions.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDailyTransactions.adapter = adapter
         
-        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+        binding.calendar_view.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val cal = Calendar.getInstance()
             cal.set(year, month, dayOfMonth)
-            // Filter logic can be added here or in ViewModel
+            viewModel.setDay(cal)
         }
 
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        viewModel.transactionsInMonth.observe(viewLifecycleOwner) { transactions ->
+        val formatter = java.text.NumberFormat.getCurrencyInstance(java.util.Locale("vi", "VN"))
+
+        viewModel.transactionsByDay.observe(viewLifecycleOwner) { transactions ->
             adapter.submitList(transactions)
+
+            val income = transactions.filter { it.isIncome }.sumOf { it.amount }
+            val expense = transactions.filter { !it.isIncome }.sumOf { it.amount }
+            val total = income - expense
+
+            binding.tvDayIncome.text = formatter.format(income)
+            binding.tvDayExpense.text = formatter.format(expense)
+            binding.tvDayTotal.text = formatter.format(total)
+            binding.tvDayTotal.setTextColor(if (total >= 0) android.graphics.Color.BLUE else android.graphics.Color.RED)
         }
     }
 
