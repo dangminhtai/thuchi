@@ -1,0 +1,33 @@
+package com.example.thu_chi.repository
+
+import com.example.thu_chi.data.Transaction
+import com.example.thu_chi.data.TransactionDao
+import kotlinx.coroutines.flow.Flow
+
+class TransactionRepository(private val transactionDao: TransactionDao) {
+    val allTransactions: Flow<List<Transaction>> = transactionDao.getAllTransactions()
+
+    suspend fun insert(transaction: Transaction) {
+        transactionDao.insertTransaction(transaction)
+    }
+
+    suspend fun update(transaction: Transaction) {
+        transactionDao.updateTransaction(transaction)
+    }
+
+    suspend fun delete(transaction: Transaction) {
+        transactionDao.deleteTransaction(transaction)
+    }
+
+    fun getTransactionsInRange(startDate: Long, endDate: Long): Flow<List<Transaction>> {
+        return transactionDao.getTransactionsInRange(startDate, endDate)
+    }
+
+    fun getTotalIncome(startDate: Long, endDate: Long): Flow<Long?> {
+        return transactionDao.getTotalIncomeInRange(startDate, endDate)
+    }
+
+    fun getTotalExpense(startDate: Long, endDate: Long): Flow<Long?> {
+        return transactionDao.getTotalExpenseInRange(startDate, endDate)
+    }
+}

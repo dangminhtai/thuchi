@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentBaoCao">
+
+    <fragment
+        android:id="@+id/fragmentBaoCao"
+        android:name="com.example.thu_chi.ui.FragmentBaoCao"
+        android:label="Báo cáo"
+        tools:layout="@layout/fragment_bao_cao" />
+
+    <fragment
+        android:id="@+id/fragmentNhapThuChi"
+        android:name="com.example.thu_chi.ui.FragmentNhapThuChi"
+        android:label="Nhập thu chi"
+        tools:layout="@layout/fragment_nhap_thu_chi" />
+
+    <fragment
+        android:id="@+id/fragmentLich"
+        android:name="com.example.thu_chi.ui.FragmentLich"
+        android:label="Lịch"
+        tools:layout="@layout/fragment_lich" />
+</navigation>

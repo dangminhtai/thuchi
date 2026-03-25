@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragmentBaoCao"
+        android:icon="@android:drawable/ic_menu_report_image"
+        android:title="Báo cáo" />
+    <item
+        android:id="@+id/fragmentNhapThuChi"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Nhập" />
+    <item
+        android:id="@+id/fragmentLich"
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Lịch" />
+</menu>
