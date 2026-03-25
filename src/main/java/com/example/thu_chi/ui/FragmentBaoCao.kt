@@ -45,6 +45,7 @@ class FragmentBaoCao : Fragment() {
     }
 
     private fun setupChart() {
+        binding.pieChart.apply {
             setUsePercentValues(true)
             description.isEnabled = false
             dragDecelerationFrictionCoef = 0.95f

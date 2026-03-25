@@ -40,7 +40,7 @@ class FragmentLich : Fragment() {
         binding.rvDailyTransactions.layoutManager = LinearLayoutManager(requireContext())
         binding.rvDailyTransactions.adapter = adapter
         
-        binding.calendar_view.setOnDateChangeListener { _, year, month, dayOfMonth ->
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val cal = Calendar.getInstance()
             cal.set(year, month, dayOfMonth)
             viewModel.setDay(cal)
