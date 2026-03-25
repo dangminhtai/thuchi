@@ -4,17 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.thu_chi.data.Budget
 import com.example.thu_chi.data.Transaction
 import com.example.thu_chi.repository.TransactionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class TransactionViewModel(private val repository: TransactionRepository) : ViewModel() {
 
     private val _currentMonthRange = MutableStateFlow(getMonthRange(Calendar.getInstance()))
     private val _selectedDay = MutableStateFlow(getDayRange(Calendar.getInstance()))
+    private val _currentMonthYear = MutableStateFlow(SimpleDateFormat("MM/yyyy", Locale.getDefault()).format(Calendar.getInstance().time))
     
     val transactionsInMonth = _currentMonthRange.flatMapLatest { (start, end) ->
         repository.getTransactionsInRange(start, end)
@@ -22,6 +26,10 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
 
     val transactionsByDay = _selectedDay.flatMapLatest { (start, end) ->
         repository.getTransactionsInRange(start, end)
+    }.asLiveData()
+
+    val budgets = _currentMonthYear.flatMapLatest { monthYear ->
+        repository.getBudgetsForMonth(monthYear)
     }.asLiveData()
 
     val totalIncome = _currentMonthRange.flatMapLatest { (start, end) ->
@@ -38,6 +46,10 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
 
     fun delete(transaction: Transaction) = viewModelScope.launch {
         repository.delete(transaction)
+    }
+
+    fun setBudget(budget: Budget) = viewModelScope.launch {
+        repository.setBudget(budget)
     }
 
     fun setMonth(calendar: Calendar) {

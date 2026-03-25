@@ -27,7 +27,7 @@ class FragmentNhapThuChi : Fragment() {
 
     private val viewModel: TransactionViewModel by viewModels {
         val database = AppDatabase.getDatabase(requireContext())
-        TransactionViewModel.Factory(TransactionRepository(database.transactionDao()))
+        TransactionViewModel.Factory(TransactionRepository(database.transactionDao(), database.budgetDao()))
     }
 
     private var selectedDate = Calendar.getInstance()

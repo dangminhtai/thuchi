@@ -26,7 +26,7 @@ class FragmentBaoCao : Fragment() {
 
     private val viewModel: TransactionViewModel by viewModels {
         val database = AppDatabase.getDatabase(requireContext())
-        TransactionViewModel.Factory(TransactionRepository(database.transactionDao()))
+        TransactionViewModel.Factory(TransactionRepository(database.transactionDao(), database.budgetDao()))
     }
 
     override fun onCreateView(
@@ -42,25 +42,24 @@ class FragmentBaoCao : Fragment() {
 
         setupChart()
         observeViewModel()
+
+        binding.btnExport.setOnClickListener {
+            val transactions = viewModel.transactionsInMonth.value ?: emptyList()
+            if (transactions.isNotEmpty()) {
+                com.example.thu_chi.util.CsvExporter.exportTransactions(requireContext(), transactions)
+            } else {
+                android.widget.Toast.makeText(requireContext(), "Không có dữ liệu để xuất", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupChart() {
         binding.pieChart.apply {
-            setUsePercentValues(true)
-            description.isEnabled = false
-            dragDecelerationFrictionCoef = 0.95f
-            isDrawHoleEnabled = true
-            setHoleColor(Color.WHITE)
-            setTransparentCircleColor(Color.WHITE)
-            setTransparentCircleAlpha(110)
-            holeRadius = 58f
-            transparentCircleRadius = 61f
-            setDrawCenterText(true)
-            rotationAngle = 0f
-            isRotationEnabled = true
-            isHighlightPerTapEnabled = true
-            setEntryLabelColor(Color.BLACK)
-            setEntryLabelTextSize(12f)
+            setDrawEntryLabels(false)
+            setHoleColor(Color.TRANSPARENT)
+            setCenterTextSize(14f)
+            setCenterTextColor(Color.GRAY)
+            animateY(1400, com.github.mikephil.charting.animation.Easing.EaseInOutQuad)
             legend.isEnabled = false
         }
     }
@@ -73,24 +72,35 @@ class FragmentBaoCao : Fragment() {
         }
 
         viewModel.totalExpense.observe(viewLifecycleOwner) { expense ->
-            binding.tvTotalExpense.text = formatter.format(expense ?: 0L)
+            val total = expense ?: 0L
+            binding.tvTotalExpense.text = formatter.format(total)
+            binding.pieChart.centerText = "Tổng chi\n" + formatter.format(total)
         }
 
         viewModel.transactionsInMonth.observe(viewLifecycleOwner) { transactions ->
-            val expenseTransactions = transactions.filter { !it.isIncome }
-            val totalExpense = expenseTransactions.sumOf { it.amount }
-            val categorySum = expenseTransactions.groupBy { it.category }
-                .mapValues { entry -> entry.value.sumOf { it.amount } }
+            updateBaoCao(transactions, viewModel.budgets.value ?: emptyList())
+        }
 
-            updateChart(categorySum)
-            updateSummaryList(categorySum, totalExpense)
+        viewModel.budgets.observe(viewLifecycleOwner) { budgets ->
+            updateBaoCao(viewModel.transactionsInMonth.value ?: emptyList(), budgets)
         }
     }
 
-    private fun updateSummaryList(categorySum: Map<String, Long>, totalExpense: Long) {
+    private fun updateBaoCao(transactions: List<com.example.thu_chi.data.Transaction>, budgets: List<com.example.thu_chi.data.Budget>) {
+        val expenseTransactions = transactions.filter { !it.isIncome }
+        val totalExpense = expenseTransactions.sumOf { it.amount }
+        val categorySum = expenseTransactions.groupBy { it.category }
+            .mapValues { entry -> entry.value.sumOf { it.amount } }
+
+        updateChart(categorySum)
+        updateSummaryList(categorySum, totalExpense, budgets)
+    }
+
+    private fun updateSummaryList(categorySum: Map<String, Long>, totalExpense: Long, budgets: List<com.example.thu_chi.data.Budget>) {
         val summaries = categorySum.map { (name, amount) ->
             val percentage = if (totalExpense > 0) (amount.toFloat() / totalExpense) * 100 else 0f
-            CategorySummary(name, amount, percentage)
+            val budget = budgets.find { it.category == name }
+            CategorySummary(name, amount, percentage, budget?.limitAmount ?: 0L)
         }.sortedByDescending { it.amount }
 
         binding.rvCategorySummary.layoutManager = LinearLayoutManager(requireContext())
@@ -110,9 +120,7 @@ class FragmentBaoCao : Fragment() {
         dataSet.selectionShift = 5f
         
         val data = PieData(dataSet)
-        data.setValueFormatter(com.github.mikephil.charting.formatter.PercentFormatter(binding.pieChart))
-        data.setValueTextSize(11f)
-        data.setValueTextColor(Color.BLACK)
+        data.setDrawValues(false)
         
         binding.pieChart.data = data
         binding.pieChart.highlightValues(null)

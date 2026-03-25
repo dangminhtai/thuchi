@@ -8,9 +8,10 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Transaction::class], version = 1, exportSchema = false)
+@Database(entities = [Transaction::class, Budget::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
+    abstract fun budgetDao(): BudgetDao
 
     companion object {
         @Volatile
@@ -21,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "thu_chi_database_v2"
+                    "thu_chi_database_v4"
                 )
                 .addCallback(object : RoomDatabase.Callback() {
                     @OptIn(DelicateCoroutinesApi::class)
@@ -39,6 +40,17 @@ abstract class AppDatabase : RoomDatabase() {
                                 dao.insertTransaction(Transaction(amount = 500000, note = "Tiền điện", date = now, isIncome = false, category = "Tiền điện"))
                                 dao.insertTransaction(Transaction(amount = 200000, note = "Mỹ phẩm", date = now, isIncome = false, category = "Mỹ phẩm"))
                                 dao.insertTransaction(Transaction(amount = 45000, note = "Phí giao lưu", date = now, isIncome = false, category = "Phí giao lưu"))
+
+                                // Budgets
+                                val bDao = database.budgetDao()
+                                val monthYear = java.text.SimpleDateFormat("MM/yyyy", java.util.Locale.getDefault()).format(cal.time)
+                                bDao.setBudget(Budget("Ăn uống", 1000000, monthYear))
+                                bDao.setBudget(Budget("Tiền nhà", 4000000, monthYear))
+                                bDao.setBudget(Budget("Tiền điện", 600000, monthYear))
+                                bDao.setBudget(Budget("Mỹ phẩm", 500000, monthYear))
+
+                                // Set default PIN for testing
+                                com.example.thu_chi.util.SecurityUtils.setPin(context, "1234")
                             }
                         }
                     }

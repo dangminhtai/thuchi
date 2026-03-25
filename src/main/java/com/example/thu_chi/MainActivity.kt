@@ -14,6 +14,36 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (com.example.thu_chi.util.SecurityUtils.isLocked(this)) {
+            showPinDialog()
+        } else {
+            setupNavigation()
+        }
+    }
+
+    private fun showPinDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_pin, null)
+        val etPin = dialogView.findViewById<android.widget.EditText>(R.id.etPin)
+        val btnUnlock = dialogView.findViewById<android.widget.Button>(R.id.btnUnlock)
+
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        btnUnlock.setOnClickListener {
+            val input = etPin.text.toString()
+            if (input == com.example.thu_chi.util.SecurityUtils.getPin(this)) {
+                dialog.dismiss()
+                setupNavigation()
+            } else {
+                android.widget.Toast.makeText(this, "Sai mã PIN!", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
+        dialog.show()
+    }
+
+    private fun setupNavigation() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
