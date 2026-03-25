@@ -16,6 +16,7 @@ import com.example.thu_chi.databinding.FragmentNhapThuChiBinding
 import com.example.thu_chi.repository.TransactionRepository
 import com.example.thu_chi.data.Category
 import com.example.thu_chi.ui.adapter.CategoryAdapter
+import androidx.navigation.fragment.findNavController
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale

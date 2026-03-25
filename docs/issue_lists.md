@@ -34,3 +34,8 @@
 - **Nguyên nhân**: Viết sai tên hằng số bảng màu trong thư viện MPAndroidChart (`VORDHOFF_COLORS` thay vì `VORDIPLOM_COLORS`).
 - **Action**: Đổi sang `VORDIPLOM_COLORS`.
 - **Giải pháp**: Sử dụng tính năng gợi ý code (IntelliSense) hoặc tra cứu tài liệu thư viện khi sử dụng các hằng số phức tạp.
+
+## ISS008: Lỗi biên dịch `Unresolved reference: findNavController` trong `FragmentNhapThuChi.kt`
+- **Nguyên nhân**: Thiếu `import androidx.navigation.fragment.findNavController` khi thêm tính năng điều hướng sang quản lý danh mục.
+- **Action**: Bổ sung `import androidx.navigation.fragment.findNavController`.
+- **Giải pháp**: Nhớ import đầy đủ các extension function của thư viện Navigation Component.
