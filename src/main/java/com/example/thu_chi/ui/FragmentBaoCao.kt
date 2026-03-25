@@ -26,7 +26,7 @@ class FragmentBaoCao : Fragment() {
 
     private val viewModel: TransactionViewModel by viewModels {
         val database = AppDatabase.getDatabase(requireContext())
-        TransactionViewModel.Factory(TransactionRepository(database.transactionDao(), database.budgetDao()))
+        TransactionViewModel.Factory(TransactionRepository(database.transactionDao(), database.budgetDao(), database.categoryDao()))
     }
 
     override fun onCreateView(

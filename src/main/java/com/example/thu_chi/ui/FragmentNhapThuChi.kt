@@ -14,7 +14,7 @@ import com.example.thu_chi.data.AppDatabase
 import com.example.thu_chi.data.Transaction
 import com.example.thu_chi.databinding.FragmentNhapThuChiBinding
 import com.example.thu_chi.repository.TransactionRepository
-import com.example.thu_chi.ui.adapter.Category
+import com.example.thu_chi.data.Category
 import com.example.thu_chi.ui.adapter.CategoryAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -27,7 +27,7 @@ class FragmentNhapThuChi : Fragment() {
 
     private val viewModel: TransactionViewModel by viewModels {
         val database = AppDatabase.getDatabase(requireContext())
-        TransactionViewModel.Factory(TransactionRepository(database.transactionDao(), database.budgetDao()))
+        TransactionViewModel.Factory(TransactionRepository(database.transactionDao(), database.budgetDao(), database.categoryDao()))
     }
 
     private var selectedDate = Calendar.getInstance()
@@ -47,24 +47,16 @@ class FragmentNhapThuChi : Fragment() {
         updateDateDisplay()
         binding.etDate.setOnClickListener { showDatePicker() }
 
-        setupCategoryList()
+        viewModel.allCategories.observe(viewLifecycleOwner) { categories ->
+            setupCategoryList(categories)
+        }
 
         binding.btnSave.setOnClickListener { saveTransaction() }
     }
 
-    private fun setupCategoryList() {
-        val categories = listOf(
-            Category("Ăn uống", "🍽️"),
-            Category("Phí giao lưu", "🍻"),
-            Category("Y tế", "🏥"),
-            Category("Mỹ phẩm", "💄"),
-            Category("Tiền điện", "⚡"),
-            Category("Tiền nhà", "🏠"),
-            Category("Chi tiêu hàng ngày", "🛒"),
-            Category("Giáo dục", "🎓"),
-            Category("Quần áo", "👕")
-        )
-
+    private fun setupCategoryList(categories: List<com.example.thu_chi.data.Category>) {
+        if (categories.isEmpty()) return
+        
         binding.rvCategories.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvCategories.adapter = CategoryAdapter(categories) { category ->
             selectedCategory = category.name

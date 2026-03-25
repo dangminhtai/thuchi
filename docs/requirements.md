@@ -29,3 +29,7 @@
 ## [REQ006] Xuất báo cáo dữ liệu
 - Hỗ trợ xuất toàn bộ dữ liệu giao dịch trong tháng ra file CSV.
 - Chia sẻ file qua Email, Zalo, hoặc các nền tảng mạng xã hội khác.
+
+## [REQ007] Hệ thống Danh mục Tùy chỉnh (Category Management)
+- Người dùng có thể tự thêm, xóa hoặc chỉnh sửa tên và biểu tượng (icon) của danh mục.
+- Danh sách danh mục được lưu trữ bền vững trong cơ sở dữ liệu.

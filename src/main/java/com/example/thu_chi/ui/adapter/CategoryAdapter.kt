@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thu_chi.databinding.ItemCategoryBinding
-
-data class Category(val name: String, val icon: String)
+import com.example.thu_chi.data.Category
 
 class CategoryAdapter(
     private val categories: List<Category>,

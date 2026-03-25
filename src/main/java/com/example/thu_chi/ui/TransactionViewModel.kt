@@ -32,6 +32,8 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
         repository.getBudgetsForMonth(monthYear)
     }.asLiveData()
 
+    val allCategories = repository.allCategories.asLiveData()
+
     val totalIncome = _currentMonthRange.flatMapLatest { (start, end) ->
         repository.getTotalIncome(start, end)
     }.asLiveData()

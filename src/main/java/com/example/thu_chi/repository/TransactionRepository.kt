@@ -1,18 +1,23 @@
 package com.example.thu_chi.repository
 
-import com.example.thu_chi.data.Budget
-import com.example.thu_chi.data.BudgetDao
-import com.example.thu_chi.data.Transaction
-import com.example.thu_chi.data.TransactionDao
+import com.example.thu_chi.data.*
 import kotlinx.coroutines.flow.Flow
 
 class TransactionRepository(
     private val transactionDao: TransactionDao,
-    private val budgetDao: BudgetDao
+    private val budgetDao: BudgetDao,
+    private val categoryDao: CategoryDao
 ) {
+    val allTransactions: Flow<List<Transaction>> = transactionDao.getAllTransactions()
+    val allCategories: Flow<List<Category>> = categoryDao.getAllCategories()
+
     fun getBudgetsForMonth(monthYear: String): Flow<List<Budget>> = budgetDao.getBudgetsForMonth(monthYear)
 
     suspend fun setBudget(budget: Budget) = budgetDao.setBudget(budget)
+
+    suspend fun insertCategory(category: Category) = categoryDao.insertCategory(category)
+
+    suspend fun clearCategories() = categoryDao.clearCategories()
 
     suspend fun insert(transaction: Transaction) {
         transactionDao.insertTransaction(transaction)
