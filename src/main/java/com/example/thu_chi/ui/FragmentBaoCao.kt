@@ -143,7 +143,7 @@ class FragmentBaoCao : Fragment() {
     private fun updatePieChart(categorySum: Map<String, Long>) {
         val entries = categorySum.map { (name, amount) -> PieEntry(amount.toFloat(), name) }
         val dataSet = PieDataSet(entries, "").apply {
-            colors = com.github.mikephil.charting.utils.ColorTemplate.VORDHOFF_COLORS.toList()
+            colors = com.github.mikephil.charting.utils.ColorTemplate.VORDIPLOM_COLORS.toList()
             setDrawValues(false)
         }
         binding.pieChart.data = PieData(dataSet)

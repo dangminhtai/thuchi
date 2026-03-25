@@ -29,3 +29,8 @@
 - **Nguyên nhân**: Thiếu `import com.github.mikephil.charting.components.XAxis` khi thiết lập cấu trúc cho biểu đồ cột mới.
 - **Action**: Bổ sung `import com.github.mikephil.charting.components.XAxis`.
 - **Giải pháp**: Kiểm tra các lớp thành phần của thư viện bên thứ 3 (như MPAndroidChart) khi sử dụng các hằng số hoặc ENUM của chúng.
+
+## ISS007: Lỗi biên dịch `Unresolved reference: VORDHOFF_COLORS` trong `FragmentBaoCao.kt`
+- **Nguyên nhân**: Viết sai tên hằng số bảng màu trong thư viện MPAndroidChart (`VORDHOFF_COLORS` thay vì `VORDIPLOM_COLORS`).
+- **Action**: Đổi sang `VORDIPLOM_COLORS`.
+- **Giải pháp**: Sử dụng tính năng gợi ý code (IntelliSense) hoặc tra cứu tài liệu thư viện khi sử dụng các hằng số phức tạp.
