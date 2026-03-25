@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.thu_chi.R
 import com.example.thu_chi.data.AppDatabase
 import com.example.thu_chi.data.Transaction
 import com.example.thu_chi.databinding.FragmentNhapThuChiBinding
@@ -44,11 +45,11 @@ class FragmentNhapThuChi : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         updateDateDisplay()
-        binding.et_date.setOnClickListener { showDatePicker() }
+        binding.etDate.setOnClickListener { showDatePicker() }
 
         setupCategoryList()
 
-        binding.btn_save.setOnClickListener { saveTransaction() }
+        binding.btnSave.setOnClickListener { saveTransaction() }
     }
 
     private fun setupCategoryList() {
@@ -64,8 +65,8 @@ class FragmentNhapThuChi : Fragment() {
             Category("Quần áo", "👕")
         )
 
-        binding.rv_categories.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.rv_categories.adapter = CategoryAdapter(categories) { category ->
+        binding.rvCategories.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.rvCategories.adapter = CategoryAdapter(categories) { category ->
             selectedCategory = category.name
         }
     }
@@ -79,13 +80,13 @@ class FragmentNhapThuChi : Fragment() {
 
     private fun updateDateDisplay() {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale("vi", "VN"))
-        binding.et_date.setText(sdf.format(selectedDate.time))
+        binding.etDate.setText(sdf.format(selectedDate.time))
     }
 
     private fun saveTransaction() {
-        val amountStr = binding.et_amount.text.toString()
-        val note = binding.et_note.text.toString()
-        val isIncome = binding.toggle_group.checkedButtonId == R.id.btn_income
+        val amountStr = binding.etAmount.text.toString()
+        val note = binding.etNote.text.toString()
+        val isIncome = binding.toggleGroup.checkedButtonId == R.id.btn_income
 
         if (amountStr.isEmpty()) {
             Toast.makeText(requireContext(), "Vui lòng nhập số tiền", Toast.LENGTH_SHORT).show()
@@ -105,8 +106,8 @@ class FragmentNhapThuChi : Fragment() {
         Toast.makeText(requireContext(), "Đã lưu thành công", Toast.LENGTH_SHORT).show()
         
         // Reset fields
-        binding.et_amount.text?.clear()
-        binding.et_note.text?.clear()
+        binding.etAmount.text?.clear()
+        binding.etNote.text?.clear()
     }
 
     override fun onDestroyView() {

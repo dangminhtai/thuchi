@@ -37,10 +37,10 @@ class FragmentLich : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = TransactionAdapter()
-        binding.rv_daily_transactions.layoutManager = LinearLayoutManager(requireContext())
-        binding.rv_daily_transactions.adapter = adapter
+        binding.rvDailyTransactions.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvDailyTransactions.adapter = adapter
         
-        binding.calendar_view.setOnDateChangeListener { _, year, month, dayOfMonth ->
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val cal = Calendar.getInstance()
             cal.set(year, month, dayOfMonth)
             // Filter logic can be added here or in ViewModel

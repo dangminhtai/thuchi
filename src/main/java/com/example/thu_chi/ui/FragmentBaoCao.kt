@@ -55,11 +55,11 @@ class FragmentBaoCao : Fragment() {
         val formatter = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
 
         viewModel.totalIncome.observe(viewLifecycleOwner) { income ->
-            binding.tv_total_income.text = formatter.format(income ?: 0L)
+            binding.tvTotalIncome.text = formatter.format(income ?: 0L)
         }
 
         viewModel.totalExpense.observe(viewLifecycleOwner) { expense ->
-            binding.tv_total_expense.text = formatter.format(expense ?: 0L)
+            binding.tvTotalExpense.text = formatter.format(expense ?: 0L)
         }
 
         viewModel.transactionsInMonth.observe(viewLifecycleOwner) { transactions ->
