@@ -6,6 +6,10 @@ import com.example.thu_chi.data.Transaction
 import com.example.thu_chi.data.TransactionDao
 import kotlinx.coroutines.flow.Flow
 
+class TransactionRepository(
+    private val transactionDao: TransactionDao,
+    private val budgetDao: BudgetDao
+) {
     fun getBudgetsForMonth(monthYear: String): Flow<List<Budget>> = budgetDao.getBudgetsForMonth(monthYear)
 
     suspend fun setBudget(budget: Budget) = budgetDao.setBudget(budget)
