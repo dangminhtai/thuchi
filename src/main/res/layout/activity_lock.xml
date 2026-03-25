@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nhập mật mã"
+        android:textSize="20sp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+        <View
+            android:id="@+id/dot1"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/dot_empty" />
+        <View
+            android:id="@+id/dot2"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/dot_empty" />
+        <View
+            android:id="@+id/dot3"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/dot_empty" />
+        <View
+            android:id="@+id/dot4"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/dot_empty" />
+    </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/keypad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:columnCount="3"
+        android:useDefaultMargins="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- Buttons 1-9, Delete, 0, Biometric/Check -->
+        <Button style="@style/KeypadButton" android:text="1" />
+        <Button style="@style/KeypadButton" android:text="2" />
+        <Button style="@style/KeypadButton" android:text="3" />
+        <Button style="@style/KeypadButton" android:text="4" />
+        <Button style="@style/KeypadButton" android:text="5" />
+        <Button style="@style/KeypadButton" android:text="6" />
+        <Button style="@style/KeypadButton" android:text="7" />
+        <Button style="@style/KeypadButton" android:text="8" />
+        <Button style="@style/KeypadButton" android:text="9" />
+        
+        <ImageButton
+            android:id="@+id/btnDelete"
+            style="@style/KeypadButton"
+            android:src="@android:drawable/ic_input_delete"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+            
+        <Button style="@style/KeypadButton" android:text="0" />
+        
+        <ImageButton
+            android:id="@+id/btnBiometric"
+            style="@style/KeypadButton"
+            android:src="@android:drawable/ic_dialog_info"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

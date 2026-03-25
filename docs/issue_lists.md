@@ -9,3 +9,8 @@
 - **Nguyên nhân**: File bị mất khai báo `class` do lỗi ghi đè nội dung không cẩn thận.
 - **Action**: Khôi phục khai báo `class TransactionRepository` và các tham số constructor.
 - **Giải pháp**: Kiểm tra kỹ nội dung thay thế khi dùng công cụ `replace_file_content` để không làm mất cấu trúc file.
+
+## ISS003: Lỗi tài nguyên `color/orange_700` không tìm thấy trong `dot_filled.xml`
+- **Nguyên nhân**: Sử dụng sai tên biến màu sắc chưa có trong `colors.xml`.
+- **Action**: Đổi `@color/orange_700` sang `@color/orange_main`.
+- **Giải pháp**: Luôn kiểm tra file `colors.xml` trước khi gọi tên biến màu sắc mới.

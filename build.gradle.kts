@@ -63,6 +63,9 @@ dependencies {
     // Chart
     implementation(libs.mpandroidchart)
 
+    // Biometric
+    implementation(libs.androidx.biometric)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
